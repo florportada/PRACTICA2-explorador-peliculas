@@ -1,53 +1,89 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 
 const MovieContext = createContext()
 
 export function MovieProvider({ children }) {
-const [favorites, setFavorites] = useState([])
+  // Inicializar desde localStorage o array vacío
+  const [favorites, setFavorites] = useState(() => {
+    try {
+      const savedFavorites = localStorage.getItem('movieFavorites')
+      return savedFavorites ? JSON.parse(savedFavorites) : []
+    } catch (error) {
+      console.error('Error al cargar favoritos:', error)
+      return []
+    }
+  })
 
-// Cargar favoritos desde localStorage al iniciar
-useEffect(() => {
-  try {
-    const raw = localStorage.getItem('tmdb_favorites')
-    if (raw) setFavorites(JSON.parse(raw))
-  } catch (e) {
-    console.error('Error al leer favoritos desde localStorage', e)
+  // Guardar en localStorage cada vez que cambien los favoritos
+  useEffect(() => {
+    try {
+      localStorage.setItem('movieFavorites', JSON.stringify(favorites))
+    } catch (error) {
+      console.error('Error al guardar favoritos:', error)
+    }
+  }, [favorites])
+
+  const isFavorite = (movieId) => {
+    return favorites.some(fav => fav.id === movieId)
   }
-}, [])
 
-// Guardar favoritos en localStorage cuando cambien
-useEffect(() => {
-  try {
-    localStorage.setItem('tmdb_favorites', JSON.stringify(favorites))
-  } catch (e) {
-    console.error('Error al guardar favoritos en localStorage', e)
+  const toggleFavorite = (movie) => {
+    setFavorites(prevFavorites => {
+      const exists = prevFavorites.some(fav => fav.id === movie.id)
+      
+      if (exists) {
+        // Eliminar de favoritos
+        return prevFavorites.filter(fav => fav.id !== movie.id)
+      } else {
+        // Agregar a favoritos
+        return [...prevFavorites, movie]
+      }
+    })
   }
-}, [favorites])
 
-const isFavorite = (movieId) => favorites.some(m => m.id === movieId)
+  const addFavorite = (movie) => {
+    setFavorites(prevFavorites => {
+      const exists = prevFavorites.some(fav => fav.id === movie.id)
+      if (!exists) {
+        return [...prevFavorites, movie]
+      }
+      return prevFavorites
+    })
+  }
 
-const addFavorite = (movie) => {
-  if (!isFavorite(movie.id)) setFavorites(prev => [movie, ...prev])
-}
+  const removeFavorite = (movieId) => {
+    setFavorites(prevFavorites => 
+      prevFavorites.filter(fav => fav.id !== movieId)
+    )
+  }
 
-const removeFavorite = (movieId) => {
-  setFavorites(prev => prev.filter(m => m.id !== movieId))
-}
+  const clearFavorites = () => {
+    setFavorites([])
+    localStorage.removeItem('movieFavorites')
+  }
 
-const toggleFavorite = (movie) => {
-  if (isFavorite(movie.id)) removeFavorite(movie.id)
-  else addFavorite(movie)
-}
+  const value = {
+    favorites,
+    isFavorite,
+    toggleFavorite,
+    addFavorite,
+    removeFavorite,
+    clearFavorites
+  }
 
-return (
-  <MovieContext.Provider value={{ favorites, addFavorite, removeFavorite, toggleFavorite, isFavorite }}>
-    {children}
-  </MovieContext.Provider>
+  return (
+    <MovieContext.Provider value={value}>
+      {children}
+    </MovieContext.Provider>
   )
 }
 
 export function useMovieContext() {
-  const ctx = useContext(MovieContext)
-  if (!ctx) throw new Error('useMovieContext debe usarse dentro de MovieProvider')
-  return ctx
+  const context = useContext(MovieContext)
+  if (!context) {
+    throw new Error('useMovieContext debe usarse dentro de MovieProvider')
+  }
+  return context
 }
+
+export { MovieContext }
