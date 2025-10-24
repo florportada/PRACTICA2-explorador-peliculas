@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useMovieContext } from '../context/MovieContext'
 
-export default function Navbar({ onSearch }) {
+export default function Navbar({ onSearch, onReset }) {
   const location = useLocation()
   const { favorites } = useMovieContext()
   const [query, setQuery] = useState('')
@@ -12,10 +12,15 @@ export default function Navbar({ onSearch }) {
     onSearch(query.trim())
   }
 
+  const homeClick = () =>{
+    onReset()
+    setQuery('')
+  }
+
   return (
     <nav className="nav">
       <div className="nav-inner">
-        <Link to="/" className="brand"> Movieees </Link>
+        <Link to="/" className="brand" onClick={homeClick}> Movieees </Link>
 
         <form onSubmit={handleSubmit} className="nav-search-form">
           <input

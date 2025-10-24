@@ -10,11 +10,17 @@ export default function App() {
 
   const handleSearch = (query) => {
     setSearchQuery(query)
-    navigate('/') // redirige a Home al buscar
+    navigate('/') 
   }
+
+  const resetSearch = () => {
+    setSearchQuery('')
+    navigate('/')
+  }
+
   return (
     <div className="app-root">
-      <NavBar onSearch={handleSearch}/>
+      <NavBar onSearch={handleSearch} onReset={resetSearch}/>
       <main className="container">
         <Routes>
           <Route path="/" element={<Home searchQuery={searchQuery}/>} />
