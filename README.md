@@ -20,5 +20,5 @@ Una vez descargada la aplicación, se debe de ejecutar los siguientes comandos:
 - `npm install`: la cual descargará todas las dependencias de la aplicación.
 - `npm run dev`: para poder levantar la aplicación y poder usarla. Esto te mostrara un link como *http://localhost:xxxx/* el cual será el puerto donde se estará ejecutando dicha aplicación.
 
-
+https://github.com/florportada/PRACTICA2-explorador-peliculas
 Hecho por Florencia Portada [https://github.com/florportada] y Vittorio Ferone [https://github.com/viitto999]
