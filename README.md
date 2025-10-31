@@ -12,7 +12,7 @@ Hay diferentes archivos, como `App.jsx`, `Home.jsx`, `Favorites.jsx`, `main.jsx`
 - `main.jsx`: Es la entrada a la aplicación, renderizando el `index.html`. En este archivo, basicamente se maneja la el renderizado de todos los otros archivos, así como sus funcionalidades.
 - `MovieContext.jsx`: Maneja las películas favoritas. Básicamente controlamos cuáles películas se marcan como favoritas o se eliminan de favoritos. También se obtiene toda la información de las películas, sea su título, año en que se creó, la sinopsis y su rating.
 - `MovieCard.jsx`: Muestra el poster, año en que se creó y el nombre de la película, se crea una de estas tarjetas por cada película. Este archivo es el que usa la información de la película y la convierte en una tarjeta donde se muestra esa información, teniendo en cuenta todas las funcionalidades de los demás archivos, tal como el botón de favoritos.
-- `NavBar.jsx`: Crea las rutas a las diferentes partes de la página, como la de `Favorites` y `Home`. Básicamente este archivo controla la búsqueda de las películas, así como la ruta a las películas favoritas y a las polpulares.
+- `NavBar.jsx`: Crea las rutas a las diferentes partes de la página, como la de `Favorites` y `Home`. Básicamente este archivo controla la búsqueda de las películas, así como la ruta a las películas favoritas y a las populares.
 - `index.html`: Es el archivo donde se React pone toda la aplicación. Básicamente es donde se renderizan todas las páginas html que se devuelven en cada archivo con sus diferentes funcionalidades.
 
 # Ejecución
