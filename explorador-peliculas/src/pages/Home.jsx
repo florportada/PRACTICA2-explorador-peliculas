@@ -5,18 +5,18 @@ const API_BASE = 'https://api.themoviedb.org/3'
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY
 
 export default function Home({searchQuery}) {
+  // cargamos las películas
   const [movies, setMovies] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
-
   useEffect(() => {
-  // Carga inicial: películas populares
+  // cargamos las películas populares si no hay ninguna búsqueda
     if (searchQuery) fetchSearch(searchQuery)
     else fetchPopular()
   }, [searchQuery])
 
-
+  // cargamos las películas populares
   async function fetchPopular() {
     setLoading(true)
     setError(null)
@@ -32,6 +32,7 @@ export default function Home({searchQuery}) {
     }
   }
 
+  // buscamos las películas que tienen ese nombre
   async function fetchSearch(query) {
     setLoading(true)
     setError(null)
@@ -47,6 +48,7 @@ export default function Home({searchQuery}) {
     }
   }
 
+  // devolvemos el html 
   return (
   <section>
     {loading && <p className="status">Cargando...</p>}

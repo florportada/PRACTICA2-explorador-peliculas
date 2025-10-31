@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useEffect } from 'react'
 const MovieContext = createContext()
 
 export function MovieProvider({ children }) {
-  // Inicializar desde localStorage o array vacío
+  // inicializamos desde localStorage
   const [favorites, setFavorites] = useState(() => {
     try {
       const savedFavorites = localStorage.getItem('movieFavorites')
@@ -14,7 +14,7 @@ export function MovieProvider({ children }) {
     }
   })
 
-  // Guardar en localStorage cada vez que cambien los favoritos
+  // guardamos en localStorage cada vez que cambien los favoritos
   useEffect(() => {
     try {
       localStorage.setItem('movieFavorites', JSON.stringify(favorites))
@@ -23,24 +23,27 @@ export function MovieProvider({ children }) {
     }
   }, [favorites])
 
+  // si es favorito se guarda en favoritos
   const isFavorite = (movieId) => {
     return favorites.some(fav => fav.id === movieId)
   }
 
+  // se marca como favoritos o se elimina de favoritos
   const toggleFavorite = (movie) => {
     setFavorites(prevFavorites => {
       const exists = prevFavorites.some(fav => fav.id === movie.id)
       
       if (exists) {
-        // Eliminar de favoritos
+        // eliminamos de favoritos
         return prevFavorites.filter(fav => fav.id !== movie.id)
       } else {
-        // Agregar a favoritos
+        // se marca como favoritos
         return [...prevFavorites, movie]
       }
     })
   }
 
+  // la añadimos a favoritos
   const addFavorite = (movie) => {
     setFavorites(prevFavorites => {
       const exists = prevFavorites.some(fav => fav.id === movie.id)
@@ -51,12 +54,14 @@ export function MovieProvider({ children }) {
     })
   }
 
+  // la eliminamos de favoritos
   const removeFavorite = (movieId) => {
     setFavorites(prevFavorites => 
       prevFavorites.filter(fav => fav.id !== movieId)
     )
   }
 
+  // vaciamos favoritos
   const clearFavorites = () => {
     setFavorites([])
     localStorage.removeItem('movieFavorites')
@@ -71,6 +76,7 @@ export function MovieProvider({ children }) {
     clearFavorites
   }
 
+  // devolvemos el html
   return (
     <MovieContext.Provider value={value}>
       {children}
@@ -78,6 +84,7 @@ export function MovieProvider({ children }) {
   )
 }
 
+// busca toda la información de la película
 export function useMovieContext() {
   const context = useContext(MovieContext)
   if (!context) {

@@ -5,6 +5,7 @@ import { MovieProvider } from './context/MovieContext'
 import App from "./App";
 import "./index.css";
 
+// obtenemos el html de cada archivo, así como la funcionalidades de cada uno
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <MovieProvider>

@@ -1,22 +1,25 @@
 import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useMovieContext } from '../context/MovieContext'
 
 export default function Navbar({ onSearch, onReset }) {
-  const location = useLocation()
+  // sacamos la información de las películas favoritas y la búsqueda de películas
   const { favorites } = useMovieContext()
   const [query, setQuery] = useState('')
 
+  // se envia la búsqueda de la película
   const handleSubmit = (e) => {
     e.preventDefault()
     onSearch(query.trim())
   }
 
+  // si se apreta la palabra 'Movieees' se muestran las películas populares
   const homeClick = () =>{
     onReset()
     setQuery('')
   }
 
+  // devuelve el html
   return (
     <nav className="nav">
       <div className="nav-inner">

@@ -1,12 +1,15 @@
 import { useMovieContext } from '../context/MovieContext'
 
+// saca el poster de la API
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/w500'
 
 export default function MovieCard({ movie }) {
+  // obtiene la información de la película
   const { isFavorite, toggleFavorite } = useMovieContext()
   const fav = isFavorite(movie.id)
   const year = movie.release_date ? movie.release_date.slice(0, 4) : '—'
 
+  // devuelve el html de la película con toda su información
   return (
     <article className="card">
       <div className="poster-wrap">
@@ -20,9 +23,6 @@ export default function MovieCard({ movie }) {
           <div className="poster placeholder">Sin póster</div>
         )}
         
-        {/* Botón de favoritos siempre visible */}
-
-        {/* Overlay con descripción - aparece al hover */}
         <div className="overlay">
           <button 
             className={`fav-btn ${fav ? 'active' : ''}`}
